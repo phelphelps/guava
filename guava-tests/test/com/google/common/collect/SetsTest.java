@@ -648,13 +648,19 @@ public class SetsTest extends TestCase {
         .testAllPublicStaticMethods(Sets.class);
   }
 
+
+  // create a new hash map of <key - value> (int and booleans) and populate this hash
+  // with 0 and 1's from SOME_COLLECTION, then verifies that the given set is equal
+  // to and hashes identically to a set constructed with the elements in the given iterable
   public void testNewSetFromMap() {
     Set<Integer> set = Sets.newSetFromMap(new HashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
     verifySetContents(set, SOME_COLLECTION);
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible                                    // SerializableTester
+  // create a new linked hash map of <key - value> and populate this hash with 0 and 1's
+  // from SOME_COLLECTION, then it checks if the set has two numbers (0 and 1) ordered.
   public void testNewSetFromMapSerialization() {
     Set<Integer> set = Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());
     set.addAll(SOME_COLLECTION);
@@ -662,6 +668,8 @@ public class SetsTest extends TestCase {
     assertThat(copy).containsExactly(0, 1).inOrder();
   }
 
+  // create a new map object and associate a key to a value. It tries to create a new set
+  // from this map but if it fails an exception is called
   public void testNewSetFromMapIllegal() {
     Map<Integer, Boolean> map = new LinkedHashMap<>();
     map.put(2, true);
